@@ -1,5 +1,6 @@
 package org.rdtif.zaxslackbot;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import com.google.inject.AbstractModule;

@@ -2,19 +2,21 @@ package org.rdtif.zaxslackbot;
 
 import java.util.Properties;
 
-class ZaxSlackBotConfiguration {
+public class ZaxSlackBotConfiguration {
     private final Properties properties;
 
-    ZaxSlackBotConfiguration(Properties properties) {
+    public ZaxSlackBotConfiguration(Properties properties) {
         this.properties = properties;
     }
 
-    String getApiToken() {
+    public String getApiToken() {
         return properties.getProperty("api-token");
     }
 
     public String getGameDirectory() {
-        return properties.getProperty("game-directory");
+        String gameDirectory = properties.getProperty("game-directory");
+
+        return gameDirectory.endsWith("/") ? gameDirectory : gameDirectory + "/";
 
     }
 }
