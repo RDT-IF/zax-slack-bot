@@ -98,7 +98,7 @@ public class MessagePostedListenerTest {
         }
 
         @Override
-        public String responseTo(String input) {
+        public String responseTo(String input, SlackSession session, SlackChannel channel) {
             return input;
         }
     }

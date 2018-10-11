@@ -23,7 +23,7 @@ public class StartGameActionTest {
     @Test
     public void returnDefaultMessageIfGameDoesNotExist() {
         String badGameName = RandomStringUtils.randomAlphabetic(12);
-        String message = startGameAction.execute("play " + badGameName, languagePattern);
+        String message = startGameAction.execute("play " + badGameName, languagePattern, null, null);
         assertThat(message, equalTo(DEFAULT_MESSAGE));
     }
 
@@ -33,7 +33,7 @@ public class StartGameActionTest {
         String input = "play " + gameName;
 
         when(repository.fileNames()).thenReturn(Collections.singletonList(gameName));
-        String message = startGameAction.execute(input, languagePattern);
+        String message = startGameAction.execute(input, languagePattern, null, null);
 
         assertThat(message, equalTo(START_MESSAGE + " " + gameName));
     }

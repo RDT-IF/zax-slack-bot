@@ -1,19 +1,19 @@
 package org.rdtif.zaxslackbot.userinterface;
 
-class Extent {
+public class Extent {
     private final int rows;
     private final int columns;
 
-    Extent(int rows, int columns) {
+    public Extent(int rows, int columns) {
         this.rows = rows;
         this.columns = columns;
     }
 
-    int getRows() {
+    public int getRows() {
         return rows;
     }
 
-    int getColumns() {
+    public int getColumns() {
         return columns;
     }
 }

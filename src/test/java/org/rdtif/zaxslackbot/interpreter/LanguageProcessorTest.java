@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.google.common.collect.ImmutableMap;
+import com.ullink.slack.simpleslackapi.SlackChannel;
+import com.ullink.slack.simpleslackapi.SlackSession;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
@@ -21,25 +23,25 @@ public class LanguageProcessorTest {
 
     @Test
     public void returnDefaultResponseWhenNoRegisteredPatterns() {
-        assertThat(languageProcessor.responseTo(RandomStringUtils.randomAlphabetic(10)), equalTo(LanguagePattern.DEFAULT_MESSAGE));
+        assertThat(languageProcessor.responseTo(RandomStringUtils.randomAlphabetic(10), null, null), equalTo(LanguagePattern.DEFAULT_MESSAGE));
     }
 
     @Test
     public void returnDefaultResponseWhenInputIsUnknown() {
         languageProcessor.registerPattern(createLanguagePattern("/doesnt/g", "matter"));
-        assertThat(languageProcessor.responseTo(RandomStringUtils.randomAlphabetic(10)), equalTo(LanguagePattern.DEFAULT_MESSAGE));
+        assertThat(languageProcessor.responseTo(RandomStringUtils.randomAlphabetic(10), null, null), equalTo(LanguagePattern.DEFAULT_MESSAGE));
     }
 
     @Test
     public void doNotRegisterNullPattern() {
         languageProcessor.registerPattern(null);
-        assertThat(languageProcessor.responseTo(RandomStringUtils.randomAlphabetic(10)), equalTo(LanguagePattern.DEFAULT_MESSAGE));
+        assertThat(languageProcessor.responseTo(RandomStringUtils.randomAlphabetic(10), null, null), equalTo(LanguagePattern.DEFAULT_MESSAGE));
     }
 
     @Test
     public void doNotRegisterLanguagePatternWhenNoPatternPresent() {
         languageProcessor.registerPattern(new LanguagePattern());
-        assertThat(languageProcessor.responseTo(RandomStringUtils.randomAlphabetic(10)), equalTo(LanguagePattern.DEFAULT_MESSAGE));
+        assertThat(languageProcessor.responseTo(RandomStringUtils.randomAlphabetic(10), null, null), equalTo(LanguagePattern.DEFAULT_MESSAGE));
     }
 
     @Test
@@ -48,7 +50,7 @@ public class LanguageProcessorTest {
         String response = RandomStringUtils.randomAlphabetic(8);
         languageProcessor.registerPattern(createLanguagePattern(input.toUpperCase(), response));
 
-        assertThat(languageProcessor.responseTo(input.toLowerCase()), equalTo(response));
+        assertThat(languageProcessor.responseTo(input.toLowerCase(), null, null), equalTo(response));
     }
 
     @Test
@@ -57,7 +59,7 @@ public class LanguageProcessorTest {
         String response = RandomStringUtils.randomAlphabetic(8);
         languageProcessor.registerPattern(createLanguagePattern(input, response));
 
-        assertThat(languageProcessor.responseTo(input), equalTo(response));
+        assertThat(languageProcessor.responseTo(input, null, null), equalTo(response));
     }
 
     @Test
@@ -73,7 +75,7 @@ public class LanguageProcessorTest {
         boolean matchedResponse3 = false;
 
         for (int i = 0; i < 100;++i) {
-            String result = languageProcessor.responseTo(input);
+            String result = languageProcessor.responseTo(input, null, null);
 
             if (!matchedResponse1 && Objects.equals(result, response)) {
                 matchedResponse1 = true;
@@ -98,7 +100,7 @@ public class LanguageProcessorTest {
         languageProcessor.registerPattern(createLanguagePattern(RandomStringUtils.randomAlphanumeric(12), ""));
         languageProcessor.registerPattern(createLanguagePattern(input, response));
 
-        assertThat(languageProcessor.responseTo(input), equalTo(response));
+        assertThat(languageProcessor.responseTo(input, null, null), equalTo(response));
     }
 
     @Test
@@ -108,7 +110,7 @@ public class LanguageProcessorTest {
         languagePattern.setPattern(input);
         languageProcessor.registerPattern(languagePattern);
 
-        assertThat(languageProcessor.responseTo(input), equalTo(LanguagePattern.DEFAULT_MESSAGE));
+        assertThat(languageProcessor.responseTo(input, null, null), equalTo(LanguagePattern.DEFAULT_MESSAGE));
     }
 
     @Test
@@ -119,7 +121,7 @@ public class LanguageProcessorTest {
         languagePattern.setAction(LanguageAction.ListGames);
         languageProcessor.registerPattern(languagePattern);
 
-        assertThat(languageProcessor.responseTo(input), equalTo(TEST_ACTION_RESPONSE));
+        assertThat(languageProcessor.responseTo(input, null, null), equalTo(TEST_ACTION_RESPONSE));
     }
 
     private LanguagePattern createLanguagePattern(String pattern, String... response) {
@@ -136,7 +138,7 @@ public class LanguageProcessorTest {
 
     private static class TestAction implements Action {
         @Override
-        public String execute(String input, LanguagePattern pattern) {
+        public String execute(String input, LanguagePattern pattern, SlackSession session, SlackChannel channel) {
             return TEST_ACTION_RESPONSE;
         }
     }

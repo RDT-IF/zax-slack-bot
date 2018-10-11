@@ -1,10 +1,11 @@
 package org.rdtif.zaxslackbot.interpreter;
 
+import com.ullink.slack.simpleslackapi.SlackChannel;
+import com.ullink.slack.simpleslackapi.SlackSession;
 import org.rdtif.zaxslackbot.GameRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 class ListGamesAction implements Action {
     private final GameRepository repository;
@@ -14,7 +15,7 @@ class ListGamesAction implements Action {
     }
 
     @Override
-    public String execute(String input, LanguagePattern pattern) {
+    public String execute(String input, LanguagePattern pattern, SlackSession session, SlackChannel channel) {
         List<String> names = new ArrayList<>(repository.fileNames());
         if (names.size() == 0) {
             return pattern.responseFor("default");

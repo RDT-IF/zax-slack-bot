@@ -1,5 +1,8 @@
 package org.rdtif.zaxslackbot.interpreter;
 
+import com.ullink.slack.simpleslackapi.SlackChannel;
+import com.ullink.slack.simpleslackapi.SlackSession;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,14 +17,14 @@ public class LanguageProcessor {
         this.actionMap = actionMap;
     }
 
-    public String responseTo(String input) {
+    public String responseTo(String input, SlackSession session, SlackChannel channel) {
         for (LanguagePattern pattern : languagePatterns) {
             if (input.toLowerCase().matches(pattern.getPattern().toLowerCase())) {
                 Action action = actionMap.get(pattern.getAction());
                 if (action == null) {
                     return pattern.responseForFirst();
                 } else {
-                    return action.execute(input, pattern);
+                    return action.execute(input, pattern, session, channel);
                 }
             }
         }

@@ -22,7 +22,7 @@ public class ListGamesActionTest {
     @Test
     public void neverReturnNull() {
         when(repository.fileNames()).thenReturn(Collections.emptyList());
-        String response = action.execute("", createPattern());
+        String response = action.execute("", createPattern(), null, null);
 
         assertThat(response, notNullValue());
     }
@@ -30,7 +30,7 @@ public class ListGamesActionTest {
     @Test
     public void returnFileListNone() {
         when(repository.fileNames()).thenReturn(Collections.emptyList());
-        String response = action.execute("", createPattern());
+        String response = action.execute("", createPattern(), null, null);
 
         assertThat(response, equalTo(DEFAULT_MESSAGE));
     }
@@ -38,7 +38,7 @@ public class ListGamesActionTest {
     @Test
     public void returnFileListOne() {
         when(repository.fileNames()).thenReturn(Collections.singletonList("file1"));
-        String response = action.execute("", createPattern());
+        String response = action.execute("", createPattern(), null, null);
 
         assertThat(response, equalTo(GAMES_MESSAGE + "file1."));
     }
@@ -46,7 +46,7 @@ public class ListGamesActionTest {
     @Test
     public void returnFileListTwo() {
         when(repository.fileNames()).thenReturn(Arrays.asList("file1", "file2"));
-        String response = action.execute("", createPattern());
+        String response = action.execute("", createPattern(), null, null);
 
         assertThat(response, equalTo(GAMES_MESSAGE + "file1 and file2."));
     }
@@ -54,7 +54,7 @@ public class ListGamesActionTest {
     @Test
     public void returnFileListThreeOrMore() {
         when(repository.fileNames()).thenReturn(Arrays.asList("file1", "file2", "file3"));
-        String response = action.execute("", createPattern());
+        String response = action.execute("", createPattern(), null, null);
 
         assertThat(response, equalTo(GAMES_MESSAGE + "file1, file2, and file3."));
     }

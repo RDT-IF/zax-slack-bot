@@ -6,6 +6,12 @@ import java.util.Vector;
 import com.zaxsoft.zax.zmachine.ZUserInterface;
 
 public class SlackZUserInterface implements ZUserInterface {
+    private final SlackTextScreen textScreen;
+
+    public SlackZUserInterface(SlackTextScreen textScreen) {
+        this.textScreen = textScreen;
+    }
+
     @Override
     public void fatal(String message) {
 
@@ -13,7 +19,7 @@ public class SlackZUserInterface implements ZUserInterface {
 
     @Override
     public void initialize(int version) {
-
+        textScreen.initialize();
     }
 
     @Override
